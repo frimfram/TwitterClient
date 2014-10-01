@@ -4,9 +4,9 @@
 A simple Twitter client that supports viewing a Twitter timeline and composing a new tweet
 
 ## Features completed
-User can sign in to Twitter using OAuth login
-User can view the tweets from their home timeline
-User should be displayed the username, name, and body for each tweet
+- User can sign in to Twitter using OAuth login
+- User can view the tweets from their home timeline
+- User should be displayed the username, name, and body for each tweet
 User should be displayed the relative timestamp for each tweet "8m", "7h"
 User can view more tweets as they scroll with infinite pagination
 Links in tweets are clickable and will launch the web browser

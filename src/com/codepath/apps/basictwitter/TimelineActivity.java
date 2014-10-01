@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,8 +44,6 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 	private PullToRefreshListView lvTweets;
 	private ProgressBar progressBar;
 	private EditText etFragmentTrigger;
-	private ComposeDialog composeDialog;
-	private android.support.v4.app.FragmentManager fm;
 	
 	private long maxId = 0;
 	
@@ -75,12 +74,9 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 			}else{
 				loggedInUser = User.get(savedUserUid);
 			}
-			new TweetDeleteAsyncTask().execute();
 			
 			initListViewEventListener();
 			
-			fm = getSupportFragmentManager();
-			composeDialog = ComposeDialog.newInstance();
 		}else{
 			//off-line mode where the tweets from sqlite is shown
 			isOfflineMode = true;
@@ -89,11 +85,18 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 			}
 			fetchTweetsFromDB();
 			etFragmentTrigger.setVisibility(View.GONE);
-			Toast.makeText(this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getResources().getString(R.string.offline), Toast.LENGTH_LONG).show();
 		}
 	}
 
 	private void initListViewEventListener() {
+		lvTweets.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				showDetailsActivity(position);
+			}		
+		});
+		
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
 			
 			@Override
@@ -131,13 +134,6 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 		aTweets = new TweetArrayAdapter(this, tweets);
 		lvTweets.setAdapter(aTweets);
 		
-		//attach click listener for the list
-		lvTweets.setOnItemClickListener(new OnItemClickListener(){
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				showDetailsActivity(position);
-			}		
-		});
 		etFragmentTrigger = (EditText)findViewById(R.id.etFragmentTrigger);
 	}
 	
@@ -192,14 +188,16 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 			try {
 				ArrayList<Tweet> list = params != null ? params[0] : null;
 				for(Tweet tweet : list) {
-					long userId = tweet.userId;
-					User user = User.get(userId);
-					if(user == null) {
-						user = tweet.getUser();
-						user.save();
+					if(Tweet.get(tweet.uid) == null) {
+						long userId = tweet.userId;
+						User user = User.get(userId);
+						if(user == null) {
+							user = tweet.getUser();
+							user.save();
+						}
+						tweet.user = user;
+						tweet.save();
 					}
-					tweet.user = user;
-					tweet.save();
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -226,17 +224,17 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 					Tweet last = list.get(list.size()-1);
 					maxId = last.getUid();
 					aTweets.addAll(list);
-					TweetAddAsyncTask saveTask = new TweetAddAsyncTask();
-					saveTask.execute(list);
 				}
 				progressBar.setVisibility(ProgressBar.INVISIBLE);
+				TweetAddAsyncTask saveTask = new TweetAddAsyncTask();
+				saveTask.execute(list);
 			}
 			
 			@Override
 			public void onFailure(Throwable arg0, String arg1) {
-				Log.d("debug", arg1.toString());
-				super.onFailure(arg0, arg1);
+				Log.d("TimelineActivity", "Network failed: " + arg1.toString());
 				progressBar.setVisibility(ProgressBar.INVISIBLE);
+				arg0.printStackTrace();
 				Toast.makeText(TimelineActivity.this, getResources().getString(R.string.error_network), Toast.LENGTH_SHORT).show();
 			}
 		}, maxStr, null);
@@ -395,9 +393,15 @@ public class TimelineActivity extends FragmentActivity implements OnFragmentInte
 			postStatusUpdate(text);
 		}
 	}
+	private boolean isDialogShowing = false;
 	
 	private void showComposeDialogFragment() {
-		if(!composeDialog.isVisible()) {
+		if(!isDialogShowing) {
+			isDialogShowing = true;
+			ComposeDialog composeDialog;
+			FragmentManager fm;
+			fm = getSupportFragmentManager();
+			composeDialog = ComposeDialog.newInstance();			
 			composeDialog.show(fm, "fragment_compose_twitter");
 		}
 	}

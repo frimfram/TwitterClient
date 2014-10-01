@@ -117,6 +117,15 @@ public class Tweet extends Model implements Parcelable {
 		return new Select().from(Tweet.class).orderBy("uid DESC").execute();
 	}
 	
+	public static Tweet get(long uid) {
+		List<Tweet> tweet = new Select().from(Tweet.class).where("uid=?", uid).execute();
+		if(tweet != null && tweet.size() > 0) {
+			return tweet.get(0);
+		}else{
+			return null;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getBody() + " - " + getUser().getScreenName();

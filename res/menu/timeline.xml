@@ -6,7 +6,7 @@
 	    android:id="@+id/action_compose"
 	    android:orderInCategory="5"
 	    android:title="@string/compose_label"
-	    android:icon="@drawable/ic_action_compose"
+	    android:icon="@drawable/ic_action_twitter_compose_1"
 	    android:showAsAction="always" />
 
 </menu>

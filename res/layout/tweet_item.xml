@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:padding="5dp"
+	android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/ivProfileImageD"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/user_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_launcher" />
+    <TextView
+        android:id="@+id/tvUserNameD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivProfileImageD"
+        android:text="@string/user_name" />
+
+    <TextView
+        android:id="@+id/tvUserScreenNameD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvUserNameD"
+        android:layout_toRightOf="@+id/tvUserNameD"
+        android:layout_marginLeft="5dp"
+        android:text="@string/user_screenname"
+        android:textColor="#666"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserNameD"
+        android:layout_toRightOf="@+id/ivProfileImageD"
+        android:autoLink="all"
+     	android:linksClickable="true"
+        android:text="@string/tweet_body" />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvUserScreenNameD"
+        android:layout_alignParentRight="true"
+        android:textColor="#666"
+        android:textSize="12sp"
+        android:text="@string/created_at" />
+
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/release"
+        android:layout_alignLeft="@+id/tvBody"
+        android:layout_below="@+id/tvBody"
+        android:src="@drawable/reply" />
+
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:contentDescription="@string/retweets"
+        android:layout_alignTop="@+id/ivReply"
+        android:layout_toRightOf="@+id/ivReply"
+        android:layout_alignLeft="@+id/ivReply"
+        android:layout_alignRight="@+id/tvFavoriteOnList"
+        android:src="@drawable/retweet" />
+
+    <TextView
+        android:id="@+id/tvRetweetOnList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivReply"
+        android:layout_toRightOf="@+id/ivReply"
+        android:layout_alignLeft="@+id/ivReply"
+        android:layout_alignRight="@+id/tvFavoriteOnList"
+        android:paddingLeft="45dp"
+        android:gravity="center_horizontal"
+        android:text="@string/number"
+        android:textColor="#666"
+        android:textSize="12sp" />
+           
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:contentDescription="@string/favorites"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignTop="@+id/ivReply"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/tvFavoriteOnList"
+        android:src="@drawable/star" />
+    <TextView
+        android:id="@+id/tvFavoriteOnList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivReply"
+        android:layout_alignParentRight="true"
+        android:textColor="#666"
+        android:textSize="12sp"
+        android:text="@string/number" />
+
+</RelativeLayout>

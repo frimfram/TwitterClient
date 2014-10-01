@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:padding="10dp"
+    tools:context="com.codepath.apps.basictwitter.ComposeActivity" >
+
+    <EditText
+        android:id="@+id/etTweetText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tweet_hint"
+        android:inputType="textMultiLine"
+       	style="@style/EditTextCustomTheme"
+        android:text="">
+        
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.codepath.apps.basictwitter.ComposeActivity" >
+    <item
+        android:id="@+id/action_textcount"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:title=""
+        android:actionLayout="@layout/action_textcount_textview" />
+    <item
+        android:id="@+id/action_tweet"
+        android:orderInCategory="5"
+        android:showAsAction="always"
+        android:title="@string/tweet"
+        android:actionLayout="@layout/action_tweet_button" />
+
+</menu>

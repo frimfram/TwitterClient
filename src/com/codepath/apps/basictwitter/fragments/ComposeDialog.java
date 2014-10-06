@@ -1,5 +1,10 @@
-package com.codepath.apps.basictwitter;
+package com.codepath.apps.basictwitter.fragments;
 
+
+import com.codepath.apps.basictwitter.R;
+import com.codepath.apps.basictwitter.R.id;
+import com.codepath.apps.basictwitter.R.layout;
+import com.codepath.apps.basictwitter.R.string;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -23,7 +28,7 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
- * must implement the {@link FilterDialog.OnFragmentInteractionListener}
+ * must implement the {@link OnComposeFragmentInteractionListener.OnFragmentInteractionListener}
  * interface to handle interaction events. Use the
  * {@link FilterDialog#newInstance} factory method to create an instance of this
  * fragment.
@@ -36,7 +41,7 @@ public class ComposeDialog extends DialogFragment implements OnClickListener {
 	private Button tweetButton;
 	private TextView tvCount;
 
-	private OnFragmentInteractionListener mListener;
+	private OnComposeFragmentInteractionListener mListener;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -132,7 +137,7 @@ public class ComposeDialog extends DialogFragment implements OnClickListener {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnComposeFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -145,16 +150,7 @@ public class ComposeDialog extends DialogFragment implements OnClickListener {
 		mListener = null;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
+	public interface OnComposeFragmentInteractionListener {
 		
 		public void onFragmentInteraction(String tweetText);
 	}

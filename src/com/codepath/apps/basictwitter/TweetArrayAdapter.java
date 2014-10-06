@@ -7,21 +7,23 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.basictwitter.models.Tweet;
+import com.codepath.apps.basictwitter.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 	
-	private static class ViewHolder {
+	protected static class ViewHolder {
 		ImageView ivProfileImage;
 		TextView tvUserName;
 		TextView tvScreenName;
@@ -29,6 +31,10 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		TextView tvCreatedAt;
 		TextView tvRetweetCount;
 		TextView tvFavoriteCount;
+		
+		ImageView ivPreviewImage;
+		ImageView retweetedIcon;
+		TextView retweetedUser;
 	}
 
 	public TweetArrayAdapter(Context context, List<Tweet> tweets) {
@@ -59,6 +65,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		vh.ivProfileImage.setImageResource(android.R.color.transparent);
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), vh.ivProfileImage);
+		vh.ivProfileImage.setTag(tweet.getUser());
 		vh.tvUserName.setText(tweet.getUser().getName());
 		vh.tvScreenName.setText("@" + tweet.getUser().getScreenName());
 		vh.tvBody.setText(tweet.getBody());

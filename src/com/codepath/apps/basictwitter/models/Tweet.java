@@ -36,8 +36,7 @@ public class Tweet extends Model implements Parcelable {
 	public int mediaWidth;
 	@Column(name="media_height")
 	public int mediaHeight;
-	
-	public long userId;
+	public User retweetedUser;
 	
 	public Tweet() {
 		super();
@@ -66,10 +65,18 @@ public class Tweet extends Model implements Parcelable {
 			tweet.body = jsonObject.getString("text");
 			tweet.uid = jsonObject.getLong("id");
 			tweet.createdAt = jsonObject.getString("created_at");
-			tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-			tweet.userId = tweet.user.uid;
 			tweet.retweetCount = jsonObject.getInt("retweet_count");
 			tweet.favoriteCount = jsonObject.getInt("favorite_count");
+			JSONObject retweetedStatus =  null;
+			if(jsonObject.has("retweeted_status")) {
+				retweetedStatus = jsonObject.getJSONObject("retweeted_status");
+			}
+			if(retweetedStatus != null) {
+				tweet.user = User.fromJson(retweetedStatus.getJSONObject("user"));
+				tweet.retweetedUser = User.fromJson(jsonObject.getJSONObject("user"));
+			}else{
+				tweet.user = User.fromJson(jsonObject.getJSONObject("user"));			
+			}
 			JSONObject entity = jsonObject.getJSONObject("entities");
 			if(entity != null && entity.has("media")) {
 				JSONArray media = entity.getJSONArray("media");
@@ -147,7 +154,7 @@ public class Tweet extends Model implements Parcelable {
 		out.writeString(mediaUrl);
 		out.writeInt(mediaWidth);
 		out.writeInt(mediaHeight);
-		out.writeLong(userId);
+		out.writeParcelable(retweetedUser, PARCELABLE_WRITE_RETURN_VALUE);
 	}
 	
     public static final Parcelable.Creator<Tweet> CREATOR
@@ -173,6 +180,6 @@ public class Tweet extends Model implements Parcelable {
 		mediaUrl = in.readString();
 		mediaWidth = in.readInt();
 		mediaHeight = in.readInt();
-		userId = in.readLong();
+		retweetedUser = in.readParcelable(User.class.getClassLoader());		
 	}
 }

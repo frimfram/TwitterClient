@@ -1,5 +1,8 @@
 package com.codepath.apps.basictwitter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
@@ -19,11 +22,6 @@ import com.loopj.android.http.RequestParams;
  * Specify the constants below to change the API being communicated with.
  * See a full list of supported API classes: 
  *   https://github.com/fernandezpablo85/scribe-java/tree/master/src/main/java/org/scribe/builder/api
- * Key and Secret are provided by the developer site for the given API i.e dev.twitter.com
- * Add methods for each relevant endpoint in the API.
- * 
- * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
- * 
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
@@ -32,7 +30,7 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final String REST_CONSUMER_SECRET = "QnftaJlPxQmJ3VxDntmwJEH9vkaUzlInisOsy94L5NcJ3TScYG"; // Change this
 	public static final String REST_CALLBACK_URL = "oauth://cpbasictweets"; // Change this (here and in manifest)
 	
-	public static final int PAGE_SIZE = 20;
+	public static final String PAGE_SIZE = "20";
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -40,16 +38,37 @@ public class TwitterClient extends OAuthBaseClient {
 	
 	public void getHomeTimeline(AsyncHttpResponseHandler handler, String maxId, String sinceId) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		invokeTimelineCall(handler, maxId, sinceId, apiUrl, null);
+	}
+	
+	public void getMentionsTimeline(AsyncHttpResponseHandler handler, String maxId, String sinceId) {
+		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		invokeTimelineCall(handler, maxId, sinceId, apiUrl, null);
+	}
+
+	public void getUserTimeline(AsyncHttpResponseHandler handler, String maxId, String sinceId, String userId) {
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("user_id", userId);
+		invokeTimelineCall(handler, maxId, sinceId, apiUrl, params);
+	}
+	
+	private void invokeTimelineCall(AsyncHttpResponseHandler handler, String maxId, String sinceId, String apiUrl, Map<String, String>additionParams) {
 		RequestParams params = new RequestParams();
-		params.put("count", "20");
+		params.put("count", PAGE_SIZE);
 		if(maxId != null) {
 			params.put("max_id", maxId);
 		}
 		if(sinceId != null) {
 			params.put("since_id", sinceId);
 		}
+		if(additionParams != null) {
+			for(String key: additionParams.keySet()) {
+				params.put(key, additionParams.get(key));
+			}
+		}
 		client.get(apiUrl,  params, handler);  //pass null instead of params if nothing
-		Log.d("TwitterClient", "API Request: maxId: " + maxId);
+		Log.d("TwitterClient", "API Request: maxId: " + maxId);		
 	}
 	
 	public void postStatusUpdate(AsyncHttpResponseHandler handler, String text) {
@@ -79,7 +98,6 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put("status", text);
 			params.put("in_reply_to_status_id", Long.toString(tweet.uid));
 		}
-		client.post(apiUrl,  params, jsonHttpResponseHandler);
-		
+		client.post(apiUrl,  params, jsonHttpResponseHandler);		
 	}
 }

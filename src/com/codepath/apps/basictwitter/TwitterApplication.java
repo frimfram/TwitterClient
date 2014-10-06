@@ -1,8 +1,8 @@
 package com.codepath.apps.basictwitter;
 
 import android.content.Context;
-
 import com.activeandroid.ActiveAndroid;
+import com.codepath.apps.basictwitter.helper.NetworkHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -18,7 +18,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  */
 public class TwitterApplication extends com.activeandroid.app.Application {
 	private static Context context;
-
+	
+	public boolean isOfflineMode = false;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -33,9 +35,19 @@ public class TwitterApplication extends com.activeandroid.app.Application {
 		ImageLoader.getInstance().init(config);
 		
 		ActiveAndroid.setLoggingEnabled(true);
+		
+		if(!NetworkHelper.isNetworkAvailable(this)) {
+			isOfflineMode = true;
+		}
 	}
 
 	public static TwitterClient getRestClient() {
 		return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, TwitterApplication.context);
 	}
+	
+	
+	public boolean isOffline() {
+		return isOfflineMode;
+	}
+
 }

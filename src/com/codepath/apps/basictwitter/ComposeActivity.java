@@ -1,5 +1,7 @@
 package com.codepath.apps.basictwitter;
 
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -17,9 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ComposeActivity extends Activity {
@@ -140,10 +144,7 @@ public class ComposeActivity extends Activity {
 	private void onTweetButtonClicked() {
 		String text = etText.getText().toString();
 		if(validate(text)) {
-			Intent data = new Intent();
-			data.putExtra("text", text);
-			setResult(RESULT_OK, data);
-			finish();
+			postStatusUpdate(text);
 		}else{
 			etText.setError(getResources().getString(R.string.error_notext));
 		}		
@@ -157,5 +158,25 @@ public class ComposeActivity extends Activity {
 			return false;
 		}
 		return true;
+	}
+	
+	public void postStatusUpdate(String tweet) {
+		(((TwitterApplication)getApplication()).getRestClient()).postStatusUpdate(new JsonHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject json) {
+				if(json != null) {					
+					Tweet tweet = Tweet.fromJson(json);
+					Intent data = new Intent();
+					data.putExtra("tweet", tweet);
+					setResult(RESULT_OK, data);
+					finish();
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0, String arg1) {
+				Toast.makeText(ComposeActivity.this, getResources().getString(R.string.error_network), Toast.LENGTH_SHORT).show();
+			}			
+		}, tweet);
 	}
 }

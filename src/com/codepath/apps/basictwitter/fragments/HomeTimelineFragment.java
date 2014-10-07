@@ -1,7 +1,8 @@
 package com.codepath.apps.basictwitter.fragments;
 
 import android.os.Bundle;
-import com.codepath.apps.basictwitter.HomeTimelineArrayAdapter;
+
+import com.codepath.apps.basictwitter.adapters.HomeTimelineArrayAdapter;
 
 public class HomeTimelineFragment extends TweetsPagingListFragment {
 	

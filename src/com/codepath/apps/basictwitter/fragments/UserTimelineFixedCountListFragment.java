@@ -5,9 +5,9 @@ import org.json.JSONArray;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.codepath.apps.basictwitter.R;
-import com.codepath.apps.basictwitter.TweetArrayAdapter;
 import com.codepath.apps.basictwitter.TwitterApplication;
-import com.codepath.apps.basictwitter.TwitterClient;
+import com.codepath.apps.basictwitter.adapters.TweetArrayAdapter;
+import com.codepath.apps.basictwitter.helper.TwitterClient;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -40,8 +40,10 @@ public class UserTimelineFixedCountListFragment extends TweetsListFragment {
 				ArrayList<Tweet> list = Tweet.fromJSONArray(json);
 				if(list != null && list.size() > 0) {				
 					for(int i=0;i<3; i++) {
-						Tweet t = list.get(i);
-						aTweets.add(t);
+						if(i < list.size()) {
+							Tweet t = list.get(i);
+							aTweets.add(t);
+						}
 					}
 				}
 				stopProgress();

@@ -1,4 +1,4 @@
-package com.codepath.apps.basictwitter;
+package com.codepath.apps.basictwitter.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

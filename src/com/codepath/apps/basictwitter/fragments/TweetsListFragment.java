@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import com.codepath.apps.basictwitter.R;
-import com.codepath.apps.basictwitter.TweetArrayAdapter;
+import com.codepath.apps.basictwitter.adapters.TweetArrayAdapter;
 import com.codepath.apps.basictwitter.helper.EndlessScrollListener;
 import com.codepath.apps.basictwitter.models.Tweet;
 

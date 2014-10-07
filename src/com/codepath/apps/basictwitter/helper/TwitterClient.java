@@ -1,4 +1,4 @@
-package com.codepath.apps.basictwitter;
+package com.codepath.apps.basictwitter.helper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,5 +99,33 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put("in_reply_to_status_id", Long.toString(tweet.uid));
 		}
 		client.post(apiUrl,  params, jsonHttpResponseHandler);		
+	}
+	
+	public void retrieveFriendsList(JsonHttpResponseHandler handler,
+			User user, long cursor) {
+		String apiUrl = getApiUrl("friends/list.json");
+		RequestParams params = null;
+		if(user != null) {
+			params = new RequestParams();
+			params.put("user_id", Long.toString(user.uid));
+			if(cursor > -1) {
+				params.put("cursor", Long.toString(cursor));
+			}
+		}
+		client.get(apiUrl,  params, handler);
+	}
+	
+	public void retrieveFollowersList(JsonHttpResponseHandler handler,
+			User user, long cursor) {
+		String apiUrl = getApiUrl("followers/list.json");
+		RequestParams params = null;
+		if(user != null) {
+			params = new RequestParams();
+			params.put("user_id", Long.toString(user.uid));
+			if(cursor > -1) {
+				params.put("cursor", Long.toString(cursor));
+			}
+		}
+		client.get(apiUrl,  params, handler);
 	}
 }

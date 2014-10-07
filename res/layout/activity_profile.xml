@@ -121,7 +121,6 @@
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignTop="@+id/ibFollow"
 	    android:padding="10dp"
-	    android:onClick="onClickViewAllTweets"
 	    android:text="@string/view_all"
 	    android:textStyle="bold" />
 	<FrameLayout

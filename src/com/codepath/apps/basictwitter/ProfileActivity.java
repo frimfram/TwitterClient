@@ -3,6 +3,8 @@ package com.codepath.apps.basictwitter;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,8 +13,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.codepath.apps.basictwitter.adapters.ProfileHeaderPagerAdapter;
 import com.codepath.apps.basictwitter.fragments.TweetsListFragment.OnListFragmentInteractionListener;
 import com.codepath.apps.basictwitter.fragments.UserTimelineFixedCountListFragment;
 import com.codepath.apps.basictwitter.models.Tweet;
@@ -37,6 +41,15 @@ public class ProfileActivity extends FragmentActivity implements OnListFragmentI
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		user = getIntent().getParcelableExtra("profile_user");
+		
+		TextView tvViewAll = (TextView)findViewById(R.id.tvViewAll);
+		tvViewAll.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				onClickViewAllTweets();				
+			}
+		});
+		
 		if(user != null) {
 			userId = user.uid;
 			loadActionBar(user);
@@ -118,14 +131,53 @@ public class ProfileActivity extends FragmentActivity implements OnListFragmentI
 		tvFollowers.setText(Integer.toString(u.getFollowerCount()));
 		tvFollowing.setText(Integer.toString(u.getFriendsCount()));
 		tvTweets.setText(Integer.toString(u.statusCount));
+		
+		tvFollowers.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showUsersActivity("Followers");				
+			}
+		});
+		tvFollowing.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				showUsersActivity("Following");				
+			}
+		});
+		tvTweets.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				onClickViewAllTweets();			
+			}
+		});
 	}
 
 	@Override
 	public void onListItemClicked(Tweet tweet) {
-		
+		showDetailsActivity(tweet);
 	}
 	
-	public void onClickViewAllTweets(View v) {
-		
+	private void onClickViewAllTweets() {
+		Intent i = new Intent(this, ProfileTweetsActivity.class);
+		i.putExtra("profile_user", user);
+		startActivity(i);		
+	}
+	
+	private void showDetailsActivity(Tweet tweet) {
+	    Intent detailsIntent = new Intent(this, DetailsActivity.class);
+	    SharedPreferences pref = getSharedPreferences(LoginActivity.SAVED_USER_PROFILE, MODE_PRIVATE);
+		User loggedInUser = User.fromSharedPreferences(pref);
+	    if(loggedInUser != null) {
+	    	detailsIntent.putExtra("user", loggedInUser);
+	    }
+	    detailsIntent.putExtra("tweet", tweet);
+	    startActivityForResult(detailsIntent, TimelineActivity.DETAILS_ACTIVITY_REQUEST_CODE);	
+	}
+	
+	private void showUsersActivity(String type) {
+		Intent i = new Intent(this, UsersActivity.class);
+		i.putExtra("user", user);
+		i.putExtra("type", type);
+		startActivity(i);
 	}
 }

@@ -1,5 +1,6 @@
 package com.codepath.apps.basictwitter.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -195,6 +196,24 @@ public class User extends Model implements Parcelable {
 		user.screenName = pref.getString(LoginActivity.SAVED_USER_SCREENNAME, null);
 		user.profileImageUrl = pref.getString(LoginActivity.SAVED_USER_IMAGEURL, null);
 		return user;		
+	}
+
+	public static ArrayList<User> fromJSONArray(JSONArray jsonArray) {
+		ArrayList<User> users = new ArrayList<User>(jsonArray.length());
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject userJson = null;
+			try {
+				userJson = jsonArray.getJSONObject(i);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+			User user = User.fromJson(userJson);
+			if (user != null) {
+				users.add(user);
+			}
+		}
+		return users;
 	}
 
 

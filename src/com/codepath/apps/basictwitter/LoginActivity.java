@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.codepath.apps.basictwitter.helper.TwitterClient;
 import com.codepath.apps.basictwitter.models.User;
 import com.codepath.oauth.OAuthLoginActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;

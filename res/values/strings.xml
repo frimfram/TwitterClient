@@ -35,7 +35,9 @@
     <string name="profile_label">Profile</string>
     <string name="title_activity_profile">ProfileActivity</string>
 	<string name="tagline">Tagline</string>
-	<string name="following_default">Following</string>
-	<string name="followers_default">Followers</string>
+	<string name="following_default">FOLLOWING</string>
+	<string name="following">Following</string>
+	<string name="followers_default">FOLLOWERS</string>
 	<string name="retweeted">retweeted</string>
+	<string name="tweets_cap">TWEETS</string>
 </resources>

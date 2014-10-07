@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codepath.apps.basictwitter.fragments.TweetsListFragment.OnListFragmentInteractionListener;
-import com.codepath.apps.basictwitter.fragments.UserTimelineFragment;
+import com.codepath.apps.basictwitter.fragments.UserTimelineFixedCountListFragment;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -25,7 +25,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class ProfileActivity extends FragmentActivity implements OnListFragmentInteractionListener  {
 	
-	private UserTimelineFragment listFragment;
+	private UserTimelineFixedCountListFragment listFragment;
 	private long userId;
 	private User user;
 	
@@ -73,7 +73,7 @@ public class ProfileActivity extends FragmentActivity implements OnListFragmentI
 	
 	private void loadFragment() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		listFragment = UserTimelineFragment.newInstance(userId);
+		listFragment = UserTimelineFixedCountListFragment.newInstance(userId);
 
 		ft.replace(R.id.flUserTimeline, listFragment);
 		ft.commit();

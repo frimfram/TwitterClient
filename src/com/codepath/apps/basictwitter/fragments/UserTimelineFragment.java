@@ -26,7 +26,7 @@ public class UserTimelineFragment extends TweetsPagingListFragment {
 	@Override
 	protected void fetchNewerTweets(final String sinceId, String maxId) {
 		fetchNewerHandler.setSinceId(sinceId);
-		client.getMentionsTimeline(fetchNewerHandler, maxId, sinceId);
+		client.getUserTimeline(fetchNewerHandler, maxId, sinceId, Long.toString(userId));
 		
 	}
 	

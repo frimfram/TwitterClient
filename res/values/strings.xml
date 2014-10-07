@@ -34,10 +34,13 @@
     <string name="user_fetch_failed">Failed to retrieve user information</string>
     <string name="profile_label">Profile</string>
     <string name="title_activity_profile">ProfileActivity</string>
-	<string name="tagline">Tagline</string>
-	<string name="following_default">FOLLOWING</string>
-	<string name="following">Following</string>
-	<string name="followers_default">FOLLOWERS</string>
-	<string name="retweeted">retweeted</string>
-	<string name="tweets_cap">TWEETS</string>
+    <string name="tagline">Tagline</string>
+    <string name="following_default">FOLLOWING</string>
+    <string name="following">Following</string>
+    <string name="followers_default">FOLLOWERS</string>
+    <string name="retweeted">retweeted</string>
+    <string name="tweets_cap">TWEETS</string>
+    <string name="view_all">View all Tweets</string>
+    <string name="title_activity_profile_tweets">Tweets</string>
+
 </resources>

@@ -122,7 +122,10 @@ public class ProfileActivity extends FragmentActivity implements OnListFragmentI
 
 	@Override
 	public void onListItemClicked(Tweet tweet) {
-		// TODO Auto-generated method stub
+		
+	}
+	
+	public void onClickViewAllTweets(View v) {
 		
 	}
 }

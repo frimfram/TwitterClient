@@ -1,11 +1,9 @@
 package com.codepath.apps.basictwitter;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentActivity;
 
-public class ProfileTweetsActivity extends Activity {
+public class ProfileTweetsActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -3,6 +3,14 @@
     xmlns:myapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.codepath.apps.basictwitter.TimelineActivity" >
+
+	<item
+	    android:id="@+id/action_message"
+	    android:orderInCategory="2"
+	    android:title="@string/profile_label"
+	    android:icon="@drawable/ic_message"
+	    android:showAsAction="always"
+	    myapp:showAsAction="always" />
 	<item
 	    android:id="@+id/action_profile"
 	    android:orderInCategory="3"
@@ -17,5 +25,12 @@
 	    android:icon="@drawable/ic_action_twitter_compose_1"
 	    android:showAsAction="always"
 	    myapp:showAsAction="always" />
+	<item
+	    android:id="@+id/action_search"
+	    android:orderInCategory="7"
+	    android:title="@string/search"
+	    android:icon="@drawable/ic_search"
+	    myapp:showAsAction="always|collapseActionView" 
+	    myapp:actionViewClass="android.support.v7.widget.SearchView"/>
 
 </menu>

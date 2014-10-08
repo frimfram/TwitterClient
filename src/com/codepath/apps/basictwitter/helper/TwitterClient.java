@@ -1,5 +1,7 @@
 package com.codepath.apps.basictwitter.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +53,20 @@ public class TwitterClient extends OAuthBaseClient {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("user_id", userId);
 		invokeTimelineCall(handler, maxId, sinceId, apiUrl, params);
+	}
+	
+	public void getTweetSearchResults(AsyncHttpResponseHandler handler, String maxId, String sinceId, String query) {
+		String apiUrl = getApiUrl("search/tweets.json");
+		Map<String, String> params = new HashMap<String, String>();
+		try {
+			query = URLEncoder.encode(query, "UTF-8");
+			params.put("q", query);
+			params.put("result_type", "popular");
+			invokeTimelineCall(handler, maxId, sinceId, apiUrl, params);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 	
 	private void invokeTimelineCall(AsyncHttpResponseHandler handler, String maxId, String sinceId, String apiUrl, Map<String, String>additionParams) {

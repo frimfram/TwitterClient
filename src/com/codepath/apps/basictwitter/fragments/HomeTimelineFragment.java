@@ -31,5 +31,5 @@ public class HomeTimelineFragment extends TweetsPagingListFragment {
 	protected void fetchNewerTweets(String sinceId, String maxId) {
 		fetchNewerHandler.setSinceId(sinceId);		
 		client.getHomeTimeline(fetchNewerHandler, maxId, sinceId);		
-	}	
+	}
 }

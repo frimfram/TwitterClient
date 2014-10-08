@@ -47,6 +47,7 @@
         </activity>
         <activity
             android:name=".TimelineActivity"
+            android:theme="@style/MyCustomTheme"
             android:label="@string/title_activity_timeline" >
         </activity>
         <activity
@@ -73,6 +74,10 @@
         <activity
             android:name=".UsersActivity"
             android:label="@string/title_activity_users" >
+        </activity>
+        <activity
+            android:name=".SearchResultsActivity"
+            android:label="@string/title_activity_search_results" >
         </activity>
     </application>
 

@@ -43,5 +43,6 @@
     <string name="view_all">View all Tweets</string>
     <string name="title_activity_profile_tweets">Tweets</string>
     <string name="title_activity_users">UsersActivity</string>
-
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+	<string name="search">Search</string>
 </resources>

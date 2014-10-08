@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -89,9 +92,24 @@ public class TimelineActivity extends ActionBarActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.timeline, menu);
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		final SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem); //(SearchView)searchItem.getActionView();
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {			
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				startSearchResultsActivity(query);
+				searchView.setIconified(true);
+				return true;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String arg0) {
+				return false;
+			}
+		});
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		try {
@@ -124,6 +142,14 @@ public class TimelineActivity extends ActionBarActivity
     		composeIntent.putExtra("user", loggedInUser);
     	}
     	startActivityForResult(composeIntent, COMPOSE_ACTIVITY_REQUEST_CODE);
+	}
+	
+	protected void startSearchResultsActivity(String query) {
+	    Intent i = new Intent(this, SearchResultsActivity.class);
+	    if(query != null) {
+	    	i.putExtra("query", query);
+	    	startActivity(i);
+	    }		
 	}
 	
 	private void showProfileActivity() {

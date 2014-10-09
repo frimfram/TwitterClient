@@ -5,7 +5,7 @@ A simple Twitter client that supports viewing a Twitter timeline and composing a
 
 animated gif:
 
-![Alt text](https://github.com/frimfram/TwitterClient/blob/master/enhancedtwitter_project.gif "Twitter Client")
+![Alt text](https://github.com/frimfram/TwitterClient/blob/master/enhancedtwitter_project2.gif "Twitter Client")
 
 ## Features completed
 - User can sign in to Twitter using OAuth login
@@ -50,5 +50,7 @@ The user that wrote the original tweet is automatically "@" replied in compose
 - User can search for tweets matching a particular query and see results
 
 Hours spent:  30
+
+![Alt text](https://github.com/frimfram/TwitterClient/blob/master/enhancedtwitter_project.gif "Twitter Client")
 
 

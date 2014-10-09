@@ -2,6 +2,7 @@ package com.codepath.apps.basictwitter.adapters;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.DisplayMetrics;
@@ -10,8 +11,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.codepath.apps.basictwitter.ComposeActivity;
 import com.codepath.apps.basictwitter.ProfileActivity;
 import com.codepath.apps.basictwitter.R;
+import com.codepath.apps.basictwitter.TimelineActivity;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -63,6 +67,19 @@ public class HomeTimelineArrayAdapter extends TweetArrayAdapter {
 			holder.retweetedIcon.setVisibility(View.GONE);
 			holder.retweetedUser.setVisibility(View.GONE);
 		}
+		
+		holder.ivReply.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(v.getTag() != null) {
+					Tweet tweet = (Tweet)v.getTag();
+					Intent i = new Intent(getContext(), ComposeActivity.class);
+					i.putExtra("toBeRepliedTweet", tweet);
+					((Activity)getContext()).startActivityForResult(i, TimelineActivity.COMPOSE_ACTIVITY_REQUEST_CODE) ;
+				}
+			}
+		});
 		
 		return itemView;
 	}

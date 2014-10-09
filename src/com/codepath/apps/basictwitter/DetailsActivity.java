@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class DetailsActivity extends Activity {
 	
 	private Tweet tweet;
 	private User loggedInUser;
+	private ImageView star;
 	
 	public static int COMPOSE_ACTIVITY_REQUEST_CODE = 39;
 	
@@ -63,12 +65,22 @@ public class DetailsActivity extends Activity {
 					ivMedia.getLayoutParams().height = viewHeight;
 					imageLoader.displayImage(tweet.mediaUrl, ivMedia);
 				}
+				star = (ImageView)findViewById(R.id.ivFavoriteD);
+				if(tweet.favorited) {
+					star.setImageResource(R.drawable.staron);
+				}
+				star.setOnClickListener(new OnClickListener() {					
+					@Override
+					public void onClick(View v) {
+						switchFavorited();
+					}
+				});
 			}
 		}
 		loggedInUser = (User)getIntent().getExtras().getParcelable("user");
 		
 	}
-	
+
 	public void onReplyClicked(View v) {
     	Intent composeIntent = new Intent(this, ComposeActivity.class);
     	if(loggedInUser != null) {
@@ -99,6 +111,27 @@ public class DetailsActivity extends Activity {
 				Toast.makeText(DetailsActivity.this, getResources().getString(R.string.error_network), Toast.LENGTH_SHORT).show();
 			}			
 		}, tweetText, loggedInUser, tweet);
+	}
+	
+	public void switchFavorited() {
+		TwitterApplication.getRestClient().switchFavorited(new JsonHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject json) {
+				Tweet tweet = Tweet.fromJson(json);
+				if(tweet.favorited) {
+					star.setImageResource(R.drawable.staron);
+				}else{
+					star.setImageResource(R.drawable.star);
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0, String arg1) {
+				Log.d("debug", arg1.toString());
+				super.onFailure(arg0, arg1);
+				Toast.makeText(DetailsActivity.this, getResources().getString(R.string.error_network), Toast.LENGTH_SHORT).show();
+			}			
+		}, loggedInUser, tweet);		
 	}
 	
 	private String getDateString(String rawJsonDate) {

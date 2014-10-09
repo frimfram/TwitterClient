@@ -37,6 +37,7 @@ public class Tweet extends Model implements Parcelable {
 	@Column(name="media_height")
 	public int mediaHeight;
 	public User retweetedUser;
+	public boolean favorited;
 	
 	public Tweet() {
 		super();
@@ -92,6 +93,9 @@ public class Tweet extends Model implements Parcelable {
 						}
 					}
 				}
+			}
+			if(jsonObject.has("favorited")) {
+				tweet.favorited = jsonObject.getBoolean("favorited");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -155,6 +159,8 @@ public class Tweet extends Model implements Parcelable {
 		out.writeInt(mediaWidth);
 		out.writeInt(mediaHeight);
 		out.writeParcelable(retweetedUser, PARCELABLE_WRITE_RETURN_VALUE);
+		boolean[] array = { favorited };
+		out.writeBooleanArray(array);
 	}
 	
     public static final Parcelable.Creator<Tweet> CREATOR
@@ -180,6 +186,9 @@ public class Tweet extends Model implements Parcelable {
 		mediaUrl = in.readString();
 		mediaWidth = in.readInt();
 		mediaHeight = in.readInt();
-		retweetedUser = in.readParcelable(User.class.getClassLoader());		
+		retweetedUser = in.readParcelable(User.class.getClassLoader());	
+		boolean[] array = new boolean[1];
+		in.readBooleanArray(array);
+		favorited = array[0];
 	}
 }

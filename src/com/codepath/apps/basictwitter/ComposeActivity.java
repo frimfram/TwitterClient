@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -48,6 +49,10 @@ public class ComposeActivity extends Activity {
 		
 		if(getIntent().getExtras() != null) {
 			User user = (User)getIntent().getExtras().getParcelable("user");
+			if(user == null) {
+				SharedPreferences pref = getSharedPreferences(LoginActivity.SAVED_USER_PROFILE, MODE_PRIVATE);
+				user = User.fromSharedPreferences(pref);
+			}
 			if(user != null) {
 				((TextView)custView.findViewById(R.id.tvUserNameD)).setText(user.getName());
 				((TextView)custView.findViewById(R.id.tvUserScreenNameD)).setText("@" + user.getScreenName());

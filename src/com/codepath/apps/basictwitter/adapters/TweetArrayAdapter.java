@@ -7,21 +7,17 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.basictwitter.R;
-import com.codepath.apps.basictwitter.R.id;
-import com.codepath.apps.basictwitter.R.layout;
 import com.codepath.apps.basictwitter.models.Tweet;
-import com.codepath.apps.basictwitter.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
@@ -38,6 +34,10 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageView ivPreviewImage;
 		ImageView retweetedIcon;
 		TextView retweetedUser;
+		
+		ImageView ivReply;
+		ImageView ivFavorite;
+		ImageView ivRetweet;
 	}
 
 	public TweetArrayAdapter(Context context, List<Tweet> tweets) {
@@ -60,6 +60,9 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 			vh.tvCreatedAt = (TextView)convertView.findViewById(R.id.tvCreatedAt);
 			vh.tvRetweetCount = (TextView)convertView.findViewById(R.id.tvRetweetOnList);
 			vh.tvFavoriteCount = (TextView)convertView.findViewById(R.id.tvFavoriteOnList);
+			vh.ivFavorite = (ImageView)convertView.findViewById(R.id.ivFavorite);
+			vh.ivReply = (ImageView)convertView.findViewById(R.id.ivReply);
+			vh.ivRetweet = (ImageView)convertView.findViewById(R.id.ivRetweet);
 			convertView.setTag(vh);
 		}else{
 			vh = (ViewHolder)convertView.getTag();
@@ -69,12 +72,18 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), vh.ivProfileImage);
 		vh.ivProfileImage.setTag(tweet.getUser());
+		vh.ivReply.setTag(tweet);
 		vh.tvUserName.setText(tweet.getUser().getName());
 		vh.tvScreenName.setText("@" + tweet.getUser().getScreenName());
 		vh.tvBody.setText(tweet.getBody());
 		vh.tvCreatedAt.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
 		vh.tvRetweetCount.setText(Integer.toString(tweet.retweetCount));
 		vh.tvFavoriteCount.setText(Integer.toString(tweet.favoriteCount));
+		if(tweet.favorited) {
+			vh.ivFavorite.setImageResource(R.drawable.staron);
+		}else{
+			vh.ivFavorite.setImageResource(R.drawable.star);
+		}
 		return convertView;
 	}
 	
